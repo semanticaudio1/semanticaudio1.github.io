@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SemanticAudio: Audio Generation and Editing in Semantic Space</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(30, 58, 138, 0.3);
+        }
+        
+        .paper-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+        
+        .paper-subtitle {
+            font-size: 1.3rem;
+            font-weight: 400;
+            opacity: 0.95;
+            margin-bottom: 30px;
+        }
+        
+        .authors {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .author-name {
+            font-weight: 500;
+        }
+        
+        .affiliations {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-top: 15px;
+            line-height: 1.7;
+        }
+        
+        .affiliations sup {
+            font-size: 0.7rem;
+        }
+        
+        /* Abstract Section */
+        .abstract-section {
+            background: white;
+            border-radius: 16px;
+            padding: 35px 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            border-radius: 2px;
+        }
+        
+        .abstract-text {
+            font-size: 0.95rem;
+            color: #475569;
+            text-align: justify;
+            line-height: 1.8;
+        }
+        
+        /* Demo Section */
+        .demo-section {
+            background: white;
+            border-radius: 16px;
+            padding: 35px 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .demo-description {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+        
+        /* Audio Table */
+        .audio-table {
+            width: 100%;
+            overflow-x: auto;
+        }
+        
+        .header-row {
+            display: grid;
+            grid-template-columns: 2.5fr repeat(4, 1fr);
+            gap: 12px;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .header-row span {
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .header-row span:first-child {
+            text-align: left;
+        }
+        
+        .audio-row {
+            display: grid;
+            grid-template-columns: 2.5fr repeat(4, 1fr);
+            gap: 12px;
+            padding: 18px 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            align-items: center;
+        }
+        
+        .audio-row:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: translateX(4px);
+        }
+        
+        .caption {
+            font-size: 0.9rem;
+            color: #334155;
+            padding-right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .row-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            color: white;
+            min-width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .caption-text {
+            flex: 1;
+            line-height: 1.5;
+        }
+        
+        .audio-cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        audio {
+            width: 100%;
+            max-width: 180px;
+            height: 36px;
+            border-radius: 8px;
+        }
+        
+        audio::-webkit-media-controls-panel {
+            background: #e2e8f0;
+            border-radius: 8px;
+        }
+        
+        /* Method Labels */
+        .method-base { color: #f59e0b; }
+        .method-semantic { color: #7c3aed; }
+        .method-audioldm { color: #3b82f6; }
+        .method-gt { color: #10b981; }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            color: #94a3b8;
+            margin-top: 50px;
+            font-size: 0.85rem;
+            padding: 20px;
+        }
+        
+        footer a {
+            color: #7c3aed;
+            text-decoration: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .header-row, .audio-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .header-row span:first-child {
+                display: none;
+            }
+            
+            .caption {
+                padding-right: 0;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            
+            .audio-cell {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .audio-cell::before {
+                content: attr(data-label);
+                font-size: 0.75rem;
+                color: #64748b;
+                font-weight: 500;
+            }
+            
+            audio {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .paper-title {
+                font-size: 1.6rem;
+            }
+            
+            .paper-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .header {
+                padding: 40px 25px;
+            }
+            
+            .abstract-section, .demo-section {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="paper-title">SemanticAudio</h1>
+            <p class="paper-subtitle">Audio Generation and Editing in Semantic Space</p>
+            
+            <div class="authors">
+                <span class="author-name">Zheqi Dai<sup>1</sup></span>, 
+                <span class="author-name">Guangyan Zhang<sup>2</sup></span>, 
+                <span class="author-name">Haolin He<sup>1</sup></span>, 
+                <span class="author-name">Xiquan Li<sup>3</sup></span>, 
+                <span class="author-name">Jingyu Li<sup>2</sup></span>, 
+                <span class="author-name">Chunyat Wu<sup>1</sup></span>,
+                <span class="author-name">Yiwen Guo<sup>4,⋆</sup></span>,
+                <span class="author-name">Qiuqiang Kong<sup>1,⋆</sup></span>
+            </div>
+            
+            <div class="affiliations">
+                <sup>1</sup>The Chinese University of Hong Kong &nbsp;&nbsp;
+                <sup>2</sup>LIGHTSPEED &nbsp;&nbsp;
+                <sup>3</sup>Shanghai Jiao Tong University &nbsp;&nbsp;
+                <sup>4</sup>Independent Researcher
+            </div>
+        </header>
+
+        <section class="abstract-section">
+            <h2 class="section-title">Abstract</h2>
+            <p class="abstract-text">
+                In recent years, Text-to-Audio Generation has achieved remarkable progress, offering sound creators powerful tools to transform textual inspirations into vivid audio. However, existing models predominantly operate directly in the acoustic latent space of a Variational Autoencoder (VAE), often leading to suboptimal alignment between generated audio and textual descriptions. In this paper, we introduce <strong>SemanticAudio</strong>, a novel framework that conducts both audio generation and editing directly in a high-level semantic space. We define this semantic space as a compact representation capturing the global identity and temporal sequence of sound events, distinct from fine-grained acoustic details. SemanticAudio employs a two-stage Flow Matching architecture: the Semantic Planner first generates these compact semantic features to sketch the global semantic layout, and the Acoustic Synthesizer subsequently produces high-fidelity acoustic latents conditioned on this semantic plan. Leveraging this decoupled design, we further introduce a training-free text-guided editing mechanism that enables precise attribute-level modifications on general audio without retraining. Specifically, this is achieved by steering the semantic generation trajectory via the difference of velocity fields derived from source and target text prompts. Extensive experiments demonstrate that SemanticAudio surpasses existing mainstream approaches in both semantic alignment and audio fidelity.
+            </p>
+        </section>
+
+        <section class="demo-section">
+            <h2 class="section-title">Audio Generation Demos</h2>
+            <p class="demo-description">
+                Below are audio samples comparing our SemanticAudio with the Base Model, AudioLDM, and Ground Truth recordings. Samples are ordered by caption length from shortest to longest.
+            </p>
+            
+            <div class="audio-table">
+                <div class="header-row">
+                    <span>Caption</span>
+                    <span class="method-base">Base Model</span>
+                    <span class="method-semantic">SemanticAudio</span>
+                    <span class="method-audioldm">AudioLDM</span>
+                    <span class="method-gt">Ground Truth</span>
+                </div>
+
+                <div class="audio-row">
+                    <div class="caption">
+                        <span class="row-number">1</span>
+                        <span class="caption-text">Typing on a keyboard</span>
+                    </div>
+                    <div class="audio-cell" data-label="Base Model">
+                        <audio controls preload="none"><source src="gendemo/base/YDAN1t9ukkg0.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="SemanticAudio">
+                        <audio controls preload="none"><source src="gendemo/semantic/YDAN1t9ukkg0.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="AudioLDM">
+                        <audio controls preload="none"><source src="gendemo/audioldm/YDAN1t9ukkg0.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Ground Truth">
+                        <audio controls preload="none"><source src="gendemo/gt/YDAN1t9ukkg0.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row">
+                    <div class="caption">
+                        <span class="row-number">2</span>
+                        <span class="caption-text">Echoing male speech, laughter and applause</span>
+                    </div>
+                    <div class="audio-cell" data-label="Base Model">
+                        <audio controls preload="none"><source src="gendemo/base/Y1L_OyngNZMA.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="SemanticAudio">
+                        <audio controls preload="none"><source src="gendemo/semantic/Y1L_OyngNZMA.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="AudioLDM">
+                        <audio controls preload="none"><source src="gendemo/audioldm/Y1L_OyngNZMA.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Ground Truth">
+                        <audio controls preload="none"><source src="gendemo/gt/Y1L_OyngNZMA.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row">
+                    <div class="caption">
+                        <span class="row-number">3</span>
+                        <span class="caption-text">A speech and gunfire followed by a gun being loaded</span>
+                    </div>
+                    <div class="audio-cell" data-label="Base Model">
+                        <audio controls preload="none"><source src="gendemo/base/YpuZL08fzpXk.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="SemanticAudio">
+                        <audio controls preload="none"><source src="gendemo/semantic/YpuZL08fzpXk.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="AudioLDM">
+                        <audio controls preload="none"><source src="gendemo/audioldm/YpuZL08fzpXk.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Ground Truth">
+                        <audio controls preload="none"><source src="gendemo/gt/YpuZL08fzpXk.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row">
+                    <div class="caption">
+<span class="row-number">4</span>
+                        <span class="caption-text">A bird tweets far away and someone flushes the toilet</span>
+                    </div>
+                    <div class="audio-cell" data-label="Base Model">
+                        <audio controls preload="none"><source src="gendemo/base/YyRoKi7rhSRo.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="SemanticAudio">
+                        <audio controls preload="none"><source src="gendemo/semantic/YyRoKi7rhSRo.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="AudioLDM">
+                        <audio controls preload="none"><source src="gendemo/audioldm/YyRoKi7rhSRo.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Ground Truth">
+                        <audio controls preload="none"><source src="gendemo/gt/YyRoKi7rhSRo.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row">
+                    <div class="caption">
+<span class="row-number">5</span>
+                        <span class="caption-text">A train horn blows as a train approaches with warning bells ringing</span>
+                    </div>
+                    <div class="audio-cell" data-label="Base Model">
+                        <audio controls preload="none"><source src="gendemo/base/Y3ndid3jni7M.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="SemanticAudio">
+                        <audio controls preload="none"><source src="gendemo/semantic/Y3ndid3jni7M.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="AudioLDM">
+                        <audio controls preload="none"><source src="gendemo/audioldm/Y3ndid3jni7M.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Ground Truth">
+                        <audio controls preload="none"><source src="gendemo/gt/Y3ndid3jni7M.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row">
+                    <div class="caption">
+<span class="row-number">6</span>
+                        <span class="caption-text">Metal scrapping on wood followed by wood sanding then more metal scrapping against wood</span>
+                    </div>
+                    <div class="audio-cell" data-label="Base Model">
+                        <audio controls preload="none"><source src="gendemo/base/YOMGHnJV0l2U.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="SemanticAudio">
+                        <audio controls preload="none"><source src="gendemo/semantic/YOMGHnJV0l2U.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="AudioLDM">
+                        <audio controls preload="none"><source src="gendemo/audioldm/YOMGHnJV0l2U.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Ground Truth">
+                        <audio controls preload="none"><source src="gendemo/gt/YOMGHnJV0l2U.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row">
+                    <div class="caption">
+<span class="row-number">7</span>
+                        <span class="caption-text">A dog whimpering followed by a dog growling and barking as metal jingles and footsteps squeak on hard surface</span>
+                    </div>
+                    <div class="audio-cell" data-label="Base Model">
+                        <audio controls preload="none"><source src="gendemo/base/YXi6V0LGvqoo.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="SemanticAudio">
+                        <audio controls preload="none"><source src="gendemo/semantic/YXi6V0LGvqoo.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="AudioLDM">
+                        <audio controls preload="none"><source src="gendemo/audioldm/YXi6V0LGvqoo.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Ground Truth">
+                        <audio controls preload="none"><source src="gendemo/gt/YXi6V0LGvqoo.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>SemanticAudio Demo Page © 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // 当播放一个音频时，暂停其他所有音频
+        document.querySelectorAll('audio').forEach(audio => {
+            audio.addEventListener('play', function() {
+                document.querySelectorAll('audio').forEach(other => {
+                    if (other !== audio) {
+                        other.pause();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
