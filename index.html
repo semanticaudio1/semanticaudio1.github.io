@@ -468,6 +468,176 @@
             </div>
         </section>
 
+        <section class="demo-section" style="margin-top: 40px;">
+            <h2 class="section-title">Audio Edit Demos</h2>
+            <p class="demo-description">
+                Below are audio editing samples demonstrating our training-free text-guided editing mechanism. We show the source audio with its original caption, the target caption for editing, and results from two editing modes: with source caption guidance and without source caption guidance.
+            </p>
+            
+            <div class="audio-table">
+                <div class="header-row" style="grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;">
+                    <span>Source Caption</span>
+                    <span>Source Audio</span>
+                    <span>Target Caption</span>
+                    <span style="color: #10b981;">Edit with Source Caption</span>
+                    <span style="color: #f59e0b;">Edit without Source Caption</span>
+                </div>
+
+                <div class="audio-row" style="grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;">
+                    <div class="caption">
+                        <span class="row-number">1</span>
+                        <span class="caption-text">Dishes clanking followed by metal clanking on glass several times as a man is talking</span>
+                    </div>
+                    <div class="audio-cell" data-label="Source Audio">
+                        <audio controls preload="none"><source src="editdemo/src/Y-EaZ7EJJUl0.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="caption">
+                        <span class="caption-text">Dishes clanking followed by metal clanking on glass several times</span>
+                    </div>
+                    <div class="audio-cell" data-label="Edit with Source Caption">
+                        <audio controls preload="none"><source src="editdemo/condition/Y-EaZ7EJJUl0_edit000.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Edit without Source Caption">
+                        <audio controls preload="none"><source src="editdemo/uncondition/Y-EaZ7EJJUl0_edit000.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row" style="grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;">
+                    <div class="caption">
+                        <span class="row-number">2</span>
+                        <span class="caption-text">A dog growling and barking repeatedly</span>
+                    </div>
+                    <div class="audio-cell" data-label="Source Audio">
+                        <audio controls preload="none"><source src="editdemo/src/YNeWW30WZjPc.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="caption">
+                        <span class="caption-text">A bird chirping repeatedly</span>
+                    </div>
+                    <div class="audio-cell" data-label="Edit with Source Caption">
+                        <audio controls preload="none"><source src="editdemo/condition/YNeWW30WZjPc_edit001.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Edit without Source Caption">
+                        <audio controls preload="none"><source src="editdemo/uncondition/YNeWW30WZjPc_edit001.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row" style="grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;">
+                    <div class="caption">
+                        <span class="row-number">3</span>
+                        <span class="caption-text">A woman speaking clearly</span>
+                    </div>
+                    <div class="audio-cell" data-label="Source Audio">
+                        <audio controls preload="none"><source src="editdemo/src/Y1vCYiVvZ7VE.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="caption">
+                        <span class="caption-text">A woman speaking clearly with light rain falling</span>
+                    </div>
+                    <div class="audio-cell" data-label="Edit with Source Caption">
+                        <audio controls preload="none"><source src="editdemo/condition/Y1vCYiVvZ7VE_edit000.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Edit without Source Caption">
+                        <audio controls preload="none"><source src="editdemo/uncondition/Y1vCYiVvZ7VE_edit000.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row" style="grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;">
+                    <div class="caption">
+                        <span class="row-number">4</span>
+                        <span class="caption-text">A woman speaking clearly</span>
+                    </div>
+                    <div class="audio-cell" data-label="Source Audio">
+                        <audio controls preload="none"><source src="editdemo/src/Y1vCYiVvZ7VE.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="caption">
+                        <span class="caption-text">A bird speaking clearly</span>
+                    </div>
+                    <div class="audio-cell" data-label="Edit with Source Caption">
+                        <audio controls preload="none"><source src="editdemo/condition/Y1vCYiVvZ7VE_edit004.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Edit without Source Caption">
+                        <audio controls preload="none"><source src="editdemo/uncondition/Y1vCYiVvZ7VE_edit004.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row" style="grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;">
+                    <div class="caption">
+                        <span class="row-number">5</span>
+                        <span class="caption-text">A woman speaking clearly</span>
+                    </div>
+                    <div class="audio-cell" data-label="Source Audio">
+                        <audio controls preload="none"><source src="editdemo/src/Y1vCYiVvZ7VE.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="caption">
+                        <span class="caption-text">A woman speaking clearly with traffic noise</span>
+                    </div>
+                    <div class="audio-cell" data-label="Edit with Source Caption">
+                        <audio controls preload="none"><source src="editdemo/condition/Y1vCYiVvZ7VE_edit001.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Edit without Source Caption">
+                        <audio controls preload="none"><source src="editdemo/uncondition/Y1vCYiVvZ7VE_edit001.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row" style="grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;">
+                    <div class="caption">
+                        <span class="row-number">6</span>
+                        <span class="caption-text">A woman speaking clearly</span>
+                    </div>
+                    <div class="audio-cell" data-label="Source Audio">
+                        <audio controls preload="none"><source src="editdemo/src/Y1vCYiVvZ7VE.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="caption">
+                        <span class="caption-text">A man speaking clearly</span>
+                    </div>
+                    <div class="audio-cell" data-label="Edit with Source Caption">
+                        <audio controls preload="none"><source src="editdemo/condition/Y1vCYiVvZ7VE_edit002.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Edit without Source Caption">
+                        <audio controls preload="none"><source src="editdemo/uncondition/Y1vCYiVvZ7VE_edit002.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row" style="grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;">
+                    <div class="caption">
+                        <span class="row-number">7</span>
+                        <span class="caption-text">A woman speaking clearly</span>
+                    </div>
+                    <div class="audio-cell" data-label="Source Audio">
+                        <audio controls preload="none"><source src="editdemo/src/Y1vCYiVvZ7VE.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="caption">
+                        <span class="caption-text">A baby speaking clearly</span>
+                    </div>
+                    <div class="audio-cell" data-label="Edit with Source Caption">
+                        <audio controls preload="none"><source src="editdemo/condition/Y1vCYiVvZ7VE_edit003.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Edit without Source Caption">
+                        <audio controls preload="none"><source src="editdemo/uncondition/Y1vCYiVvZ7VE_edit003.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+                <div class="audio-row" style="grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;">
+                    <div class="caption">
+                        <span class="row-number">8</span>
+                        <span class="caption-text">Fast and loud typing on computer keyboard</span>
+                    </div>
+                    <div class="audio-cell" data-label="Source Audio">
+                        <audio controls preload="none"><source src="editdemo/src/YBz9Y5nZK3eo.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="caption">
+                        <span class="caption-text">Fast and quiet typing on computer keyboard</span>
+                    </div>
+                    <div class="audio-cell" data-label="Edit with Source Caption">
+                        <audio controls preload="none"><source src="editdemo/condition/YBz9Y5nZK3eo_edit000.wav" type="audio/wav"></audio>
+                    </div>
+                    <div class="audio-cell" data-label="Edit without Source Caption">
+                        <audio controls preload="none"><source src="editdemo/uncondition/YBz9Y5nZK3eo_edit000.wav" type="audio/wav"></audio>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
         <footer>
             <p>SemanticAudio Demo Page © 2025</p>
         </footer>
