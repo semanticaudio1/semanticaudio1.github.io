@@ -324,6 +324,12 @@
                 Below are audio samples comparing our SemanticAudio with the Base Model, AudioLDM, and Ground Truth recordings. Samples are ordered by caption length from shortest to longest.
             </p>
             
+            <!-- Framework Figure for Audio Generation -->
+            <div style="margin-bottom: 40px; text-align: center;">
+                <h3 style="font-size: 1.1rem; font-weight: 600; color: #1e3a8a; margin-bottom: 20px;">Audio Generation Framework</h3>
+                <img src="semantic_audio.png" alt="Audio Generation Framework" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid #e2e8f0;">
+            </div>
+            
             <div class="audio-table">
                 <div class="header-row">
                     <span>Caption</span>
@@ -474,6 +480,12 @@
                 Below are audio editing samples demonstrating our training-free text-guided editing mechanism. We show the source audio with its original caption, the target caption for editing, and results from two editing modes: with source caption guidance and without source caption guidance.
             </p>
             
+            <!-- Framework Figure for Audio Editing -->
+            <div style="margin-bottom: 40px; text-align: center;">
+                <h3 style="font-size: 1.1rem; font-weight: 600; color: #1e3a8a; margin-bottom: 20px;">Audio Editing Framework</h3>
+                <img src="edit_framework.png" alt="Audio Editing Framework" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid #e2e8f0;">
+            </div>
+            
             <div class="audio-table">
                 <div class="header-row" style="grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;">
                     <span>Source Caption</span>
@@ -514,10 +526,10 @@
                         <span class="caption-text">A bird chirping repeatedly</span>
                     </div>
                     <div class="audio-cell" data-label="Edit with Source Caption">
-                        <audio controls preload="none"><source src="editdemo/condition/YNeWW30WZjPc_edit001.wav" type="audio/wav"></audio>
+                        <audio controls preload="none"><source src="editdemo/condition/Y-EaZ7EJJUl0_edit001.wav" type="audio/wav"></audio>
                     </div>
                     <div class="audio-cell" data-label="Edit without Source Caption">
-                        <audio controls preload="none"><source src="editdemo/uncondition/YNeWW30WZjPc_edit001.wav" type="audio/wav"></audio>
+                        <audio controls preload="none"><source src="editdemo/uncondition/Y-EaZ7EJJUl0_edit001.wav" type="audio/wav"></audio>
                     </div>
                 </div>
 
